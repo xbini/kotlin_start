@@ -2,12 +2,14 @@
 package kotlin_start
 
 class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
+    private val greeting: String = "Hello, "
+    private val name: String = "kotlin"
+    public fun hello(): String {
+        return greeting + name
+    }
 }
 
 fun main() {
-    println(App().greeting)
+    val app = App()
+    println(app.hello())
 }

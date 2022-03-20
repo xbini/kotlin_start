@@ -36,14 +36,15 @@ dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
 }
 
+def mainClassName='kotlin_start.AppKt'
 application {
     // Define the main class for the application.
-    mainClass='kotlin_start.AppKt'
+    mainClass=mainClassName
 }
 
 tasks.jar {  
     manifest {  
-        attributes('Main-Class': 'kotlin_start.AppKt')  
+        attributes('Main-Class': mainClassName)  
     }  
 }
 
