@@ -1,12 +1,13 @@
-
 package kotlin_start
 
-import kotlin.test.Test
-import kotlin.test.assertNotNull
+import org.junit.jupiter.api.Assertions.assertEquals
+
+import org.junit.jupiter.api.Test
 
 class AppTest {
-    @Test fun appHasAGreeting() {
+    @Test
+    fun appHasAGreeting() {
         val classUnderTest = App()
-        assertNotNull(classUnderTest.greeting, "app should have a greeting")
+        assertEquals(classUnderTest.hello(), "Hello, kotlin")
     }
 }
