@@ -1,14 +1,12 @@
 package kotlin_start
 
-class App {
-    private val greeting: String = "Hello, "
-    private val name: String = "kotlin"
-    fun hello(): String {
-        return greeting + name
-    }
-}
+import kotlin_start.modle.Person
+import org.springframework.boot.CommandLineRunner
+import org.springframework.boot.autoconfigure.SpringBootApplication
 
-fun main() {
-    val app = App()
-    println(app.hello())
+@SpringBootApplication
+open class App(private val person: Person) : CommandLineRunner {
+  override fun run(vararg args: String?) {
+    println(this.person.hello())
+  }
 }
