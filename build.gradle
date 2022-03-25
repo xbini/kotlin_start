@@ -1,10 +1,13 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.5.31'
     id 'org.springframework.boot' version '2.6.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.flywaydb.flyway" version "8.5.4"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -13,8 +16,9 @@ repositories {
 dependencies {
     implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
     implementation('org.springframework.boot:spring-boot-starter')
+    implementation('org.postgresql:postgresql:42.2.14')
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 test {
@@ -24,3 +28,32 @@ test {
 //def mainClassName = 'kotlin_start.MainKt'
 
 version = "0.1"
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/local'
+    user = 'postgres'
+    password = 'password'
+}
+
+
+tasks.register("createFlywayScript") {
+    def scriptName = gradle.getStartParameter().getProjectProperties().get("scriptName")
+
+    if (!scriptName) {
+        logger.warn("Please specify script name (example: -PscriptName=init)")
+        return
+    }
+    def dateFormat = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+    def dateTime = LocalDateTime.now().format(dateFormat).toString()
+    def scriptFileFullPathName = "V${dateTime}__${scriptName}.sql" as String
+
+    def migrationPath = "src/main/resources/db/migration"
+    def outStream = new ByteArrayOutputStream()
+    def createCmd = "touch $migrationPath/$scriptFileFullPathName" as String
+    exec {
+        ExecSpec execSpec ->
+            executable("bash")
+            args("-c", createCmd)
+            standardOutput(outStream)
+    }
+}
