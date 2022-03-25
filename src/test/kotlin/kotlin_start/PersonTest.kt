@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 class PersonTest {
   @Test
-  fun shoudSayHello() {
+  fun shouldSayHello() {
     val person = Person()
     assertEquals(person.hello(), "Hello, kotlin")
   }

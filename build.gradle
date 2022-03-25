@@ -1,39 +1,26 @@
 plugins {
-    // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id 'org.jetbrains.kotlin.jvm' version '1.5.31'
-
-    // Apply the application plugin to add support for building a CLI application in Java.
-    id 'application'
+    id 'org.springframework.boot' version '2.6.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
 dependencies {
-    // Use the Kotlin JDK 8 standard library.
     implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
-    implementation('org.springframework.boot:spring-boot-starter:2.6.4')
+    implementation('org.springframework.boot:spring-boot-starter')
 
-    testImplementation(platform('org.junit:junit-bom:5.8.2'))
-    testImplementation('org.junit.jupiter:junit-jupiter')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
     useJUnitPlatform()
 }
 
-def mainClassName = 'kotlin_start.MainKt'
-application {
-    // Define the main class for the application.
-    mainClass = mainClassName
-}
-
-tasks.jar {
-    manifest {
-        attributes('Main-Class': mainClassName)
-    }
-}
+//def mainClassName = 'kotlin_start.MainKt'
 
 version = "0.1"
