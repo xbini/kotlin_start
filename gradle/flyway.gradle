@@ -1,0 +1,30 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+flyway {
+    url = project.ext.dbUrl
+    user = project.ext.dbUser
+    password = project.ext.dbPassword
+}
+
+tasks.register("createFlywayScript") {
+    def scriptName = gradle.getStartParameter().getProjectProperties().get("scriptName")
+
+    if (!scriptName) {
+        logger.warn("Skip createFlywayScript task, please specify script name (example: -PscriptName=init)")
+        return
+    }
+    def dateFormat = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+    def dateTime = LocalDateTime.now().format(dateFormat).toString()
+    def scriptFileFullPath = "V${dateTime}__${scriptName}.sql" as String
+
+    def migrationPath = "src/main/resources/db/migration"
+    def outStream = new ByteArrayOutputStream()
+    def createCmd = "touch $migrationPath/$scriptFileFullPath" as String
+    exec {
+        ExecSpec execSpec ->
+            executable("bash")
+            args("-c", createCmd)
+            standardOutput(outStream)
+    }
+}

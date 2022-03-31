@@ -1,0 +1,7 @@
+ext {
+    dbUrl = 'jdbc:postgresql://localhost:5432/local'
+    dbUser = 'postgres'
+    dbPassword = 'password'
+    dbSchema = 'kotlin_start'
+    jooqVersion = "3.15.0"
+}
